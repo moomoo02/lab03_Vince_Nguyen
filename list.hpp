@@ -49,6 +49,7 @@ class List{
         // Debugging Tools
         void render(std::ostream& out) const;
         static size_t alloc_cnt(){return Node<T>::alloc_cnt;}
+        void print();
 };
 
 template<typename T>
@@ -120,6 +121,23 @@ Node<T>& Node<T>::operator=(Node<T>&& o){
     this->next = o.next;
     o.next = NULL;
     return *this;
+}
+
+
+template<typename T>
+void List<T>::print(){
+    if (empty())
+    {
+        return;
+    }
+    Node<T> * cur = head;
+    std::cout << "Linked List Contains: ";
+    for (int i = 0; i < size(); i++)
+    {
+        std::cout << cur->val << " -> ";
+        cur = cur->next;
+    }
+    std::cout << "NULL\n";
 }
 
 #endif //LIST_HPP_

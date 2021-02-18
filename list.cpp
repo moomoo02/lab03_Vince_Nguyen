@@ -5,10 +5,11 @@ template<typename T>
 List<T>::List():head(NULL),tail(NULL){}
 
 template<typename T>
-List<T>::List(List<T> const& o):head(o.head == NULL ? NULL : new Node<T>(*o.head)){
-    this->tail = NULL; 
-    while(this->tail != NULL && this->tail->next != NULL){
-        this->tail = this->tail->next;
+List<T>::List(List<T> const& o):head(NULL),tail(NULL){
+    Node<T> * cur = o.head;
+    for(int i = 0; i < o.size(); i++){
+        this->push_back(cur->val);
+        cur = cur->next;
     }
 }
 
@@ -52,12 +53,12 @@ size_t List<T>::size() const{
 
 template<typename T>
 T& List<T>::front() const{
-    return this->tail->val;
+    return this->head->val;
 }
 
 template<typename T>
 T& List<T>::back() const{
-    return this->head->val;
+    return this->tail->val;
 }
 
 template<typename T>
@@ -138,9 +139,10 @@ void List<T>::pop_back(){
 template<typename T>
 void List<T>::push_back(T const& value){
     if(this->empty()){
-        this->head = this->tail = new Node<T>(value);
+        this->head = this->tail = new Node<T>(value,NULL);
     }else{
-        this->tail = new Node<T>(value,NULL);
+        this->tail->next = new Node<T>(value,NULL);
+        this->tail = this->tail->next;
     }
 }
 
