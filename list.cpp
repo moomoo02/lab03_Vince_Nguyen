@@ -2,7 +2,7 @@
 
 // Constructors/Assignment Operators
 template<typename T>
-List<T>::List():head((Node<T>*)0x1),tail(NULL){}
+List<T>::List():head(NULL),tail(NULL){}
 
 template<typename T>
 List<T>::List(List<T> const& o):head(o.head == NULL ? NULL : new Node<T>(*o.head)){
@@ -30,20 +30,20 @@ List<T>& List<T>::operator=(List<T> const& o){
 // Destructor
 template<typename T>
 List<T>::~List(){
-    delete this->head->next;
+    clear();
 }
 
 // Accessors
 template<typename T>
 bool List<T>::empty() const{
-    return this->head == this->tail;
+    return this->head == NULL;
 }
 
 template<typename T>
 size_t List<T>::size() const{
     size_t count = 0;
     Node<T>* v = this->head;
-    while(v!=this->tail){
+    while(v!=NULL){
         v=v->next;
         ++count;
     }
@@ -73,9 +73,9 @@ T& List<T>::at(size_t index) const{
 // Mutators
 template<typename T>
 void List<T>::clear(){
-    if(this->head != NULL)
-        delete this->head;
-    this->tail = NULL;
+    while(this->head != NULL){
+        pop_front();
+    }
 }
 
 template<typename T>
@@ -97,7 +97,7 @@ void List<T>::insert(size_t index, T const& value){
 
 template<typename T>
 void List<T>::pop_front(){
-    if(this->head->next != NULL){
+    if(this->head->next == NULL){
         delete this->head;
         this->head = this->tail = NULL;
     }else{
@@ -110,8 +110,13 @@ void List<T>::pop_front(){
 
 template<typename T>
 void List<T>::push_front(T const& value){
-    this->head = new Node<T>(value,this->head);
-    if(this->tail == NULL) this->head = this->tail;
+    if(this->head == NULL){
+        this->head = new Node<T>(value,NULL);
+    }else{
+        Node<T> * temp = this->head;
+        this->head = new Node<T>(value,temp);
+    }
+    if(this->tail == NULL) this->tail = this->head;
 }
 
 template<typename T>
