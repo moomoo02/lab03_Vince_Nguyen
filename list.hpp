@@ -126,10 +126,6 @@ Node<T>& Node<T>::operator=(Node<T>&& o){
 
 template<typename T>
 void List<T>::print(){
-    if (empty())
-    {
-        return;
-    }
     Node<T> * cur = head;
     std::cout << "Linked List Contains: ";
     for (int i = 0; i < size(); i++)
@@ -137,7 +133,20 @@ void List<T>::print(){
         std::cout << cur->val << " -> ";
         cur = cur->next;
     }
-    std::cout << "NULL\n";
+    std::cout << "NULL || ";
+    std::cout << "SIZE: " << size() << ", Empty: " << empty() << ", Front: ";
+    if(head == NULL){
+        std::cout << "NULL";
+    }else{
+        std::cout << front();
+    }
+    std::cout << " Back: ";
+    if(tail == NULL){
+        std::cout << "NULL";
+    }else{
+        std::cout << back();
+    }
+    std::cout << '\n';
 }
 
 #endif //LIST_HPP_

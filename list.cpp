@@ -56,11 +56,19 @@ size_t List<T>::size() const{
 
 template<typename T>
 T& List<T>::front() const{
+    if(this->head == NULL){
+        T random;
+        return random;
+    }
     return this->head->val;
 }
 
 template<typename T>
 T& List<T>::back() const{
+    if(this->tail == NULL){
+        T random;
+        return random;
+    }
     return this->tail->val;
 }
 
@@ -68,7 +76,7 @@ template<typename T>
 T& List<T>::at(size_t index) const{
     Node<T>* v = this->head;
     while(index>0){
-        v=(Node<T>*)&v->val;
+        v = v->next;
         --index;
     }
     return v->val;
@@ -101,7 +109,9 @@ void List<T>::insert(size_t index, T const& value){
 
 template<typename T>
 void List<T>::pop_front(){
-    if(this->head->next == NULL){
+    if(empty()){
+        return;
+    }else if(this->head->next == NULL){
         delete this->head;
         this->head = this->tail = NULL;
     }else{
@@ -114,7 +124,7 @@ void List<T>::pop_front(){
 
 template<typename T>
 void List<T>::push_front(T const& value){
-    if(this->head == NULL){
+    if(empty()){
         this->head = new Node<T>(value,NULL);
     }else{
         Node<T> * temp = this->head;
@@ -125,7 +135,9 @@ void List<T>::push_front(T const& value){
 
 template<typename T>
 void List<T>::pop_back(){
-    if(this->head->next == NULL){
+    if(empty()){
+        return;
+    }else if(this->head->next == NULL){
         delete this->head;
         this->head = this->tail = NULL;
     }else{
@@ -133,7 +145,7 @@ void List<T>::pop_back(){
         while(newTail->next != this->tail){
             newTail = newTail->next;
         }
-        newTail->next = this->tail;
+        newTail->next = NULL;
         delete this->tail;
         this->tail = newTail;
     }
@@ -212,11 +224,11 @@ template<typename T>
 bool operator==(List<T> const& lhs, List<T> const& rhs){
     Node<T> const* lhsIter = lhs.head;
     Node<T> const* rhsIter = rhs.head;
-    while(lhsIter != rhsIter || (lhsIter != NULL && rhsIter != NULL && lhsIter->val == rhsIter->val)){
+    while(lhsIter != rhsIter && (lhsIter != NULL && rhsIter != NULL && lhsIter->val == rhsIter->val)){
         lhsIter = lhsIter->next;
         rhsIter = rhsIter->next;
     }
-    return lhsIter!=rhsIter;
+    return (lhsIter == NULL && rhsIter == NULL);
 }
 
 template class List<int>;

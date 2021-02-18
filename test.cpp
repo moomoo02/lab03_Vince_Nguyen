@@ -27,8 +27,6 @@ size_t Node<int>::alloc_cnt=0;
 // TEST(Empty, CopyConstruct){
 //     List<int> ls;
 //     ASSERT_EMPTY(ls);
-//     ls.push_front(5);
-//     ls.push_front(6);
 //     List<int> ls2(ls);
 //     ASSERT_EMPTY(ls);
 //     EXPECT_EMPTY(ls2);
@@ -86,11 +84,13 @@ size_t Node<int>::alloc_cnt=0;
 
 int main() {
     List<int> ls;
-    ls.push_front(5);
-    ls.push_front(6);
+    for(int i = 0; i < 4; i++){
+        ls.push_front(i);
+    }
     List<int> ls2;
     ls2 = ls;
     ls.print();
     ls2.print();
+    std::cout << (ls2 == ls) << '\n';
     return 0;
 }
