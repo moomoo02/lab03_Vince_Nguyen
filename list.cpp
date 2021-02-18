@@ -17,11 +17,11 @@ List<T>::List(List<T> const& o):head(NULL),tail(NULL){
 template<typename T>
 List<T>& List<T>::operator=(List<T> const& o){
     if(this!=&o){
-        if(this->head != NULL) delete this->head;
-        this->head = o.head == NULL ? NULL : new Node<T>(o.head->val);
-        this->tail = this->head;
-        while(this->tail != NULL && this->tail->next != NULL){
-            this->tail = this->tail->next;
+        clear();
+        Node<T> * cur = o.head;
+        for(int i = 0; i < o.size(); i++){
+            this->push_back(cur->val);
+            cur = cur->next;
         }
     }
     return *this;
@@ -37,7 +37,10 @@ List<T>::~List(){
 // Accessors
 template<typename T>
 bool List<T>::empty() const{
-    return this->head == NULL;
+    if(size() == 0){
+        return true;
+    }
+    return false;
 }
 
 template<typename T>

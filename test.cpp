@@ -88,7 +88,8 @@ int main() {
     List<int> ls;
     ls.push_front(5);
     ls.push_front(6);
-    List<int> ls2(ls);
+    List<int> ls2;
+    ls2 = ls;
     ls.print();
     ls2.print();
     return 0;
