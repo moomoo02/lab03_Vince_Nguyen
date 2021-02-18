@@ -89,8 +89,8 @@ int main() {
     }
     List<int> ls2;
     ls2 = ls;
+    ls2.erase(0,4);
     ls.print();
     ls2.print();
-    std::cout << (ls2 == ls) << '\n';
     return 0;
 }

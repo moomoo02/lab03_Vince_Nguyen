@@ -92,8 +92,12 @@ void List<T>::clear(){
 
 template<typename T>
 void List<T>::insert(size_t index, T const& value){
-    if(index == 0){
+    if(index > size()){
+        return;
+    }else if(index == 0){
         this->push_front(value);
+    }else if(index == size()){
+        this->push_back(value);
     }else{
         Node<T>* prev = this->head;
         --index;
@@ -166,6 +170,8 @@ void List<T>::erase(size_t index){
     if(!this->empty()){
         if(index==0){
             this->pop_front();
+        }else if(index == size()-1){
+            this->pop_back();
         }else{
             Node<T>* tgt = this->head->next;
             Node<T>* prev = this->head;
@@ -179,8 +185,6 @@ void List<T>::erase(size_t index){
                 prev->next = tgt->next;
                 tgt->next = NULL;
                 delete tgt;
-                if(prev->next == this->tail)
-                    this->tail = prev;
             }
         }
     }
@@ -190,8 +194,12 @@ template<typename T>
 void List<T>::erase(size_t index,size_t count){
     if(count>0 && !this->empty()){
         if(index==0){
-            for(;count>0 && !this->empty();--count){
+            for(count>0 && !this->empty();count--;){
                 this->pop_front();
+            }
+        }else if(index + count >= size()){
+            while(!this->empty() && count-- && size() - 1 >= index){
+                this->pop_back();
             }
         }else{
             Node<T>* prev = this->head;
@@ -212,8 +220,7 @@ void List<T>::erase(size_t index,size_t count){
                 }
                 nextPrev->next = NULL;
                 prev->next = next;
-                if(next == NULL)
-                    this->tail = prev;
+                if(next == NULL) this->tail = prev;
                 delete tgt;
             }
         }
